@@ -134,3 +134,29 @@ root@raspberrypi:/home/pi# chmod a+w -r /usr/local/etc/yate
 ```
 
 Now you should have your graphical interface installed on the web server. Go to your browser and access the server via ```localhost/nib``` or ```127.0.0.1/*name-of-directory*```
+
+#### Configure ybts.conf
+To use the web interface, go to the BTS Configuration tab and select the GSM tab. This is where you will enter the values for your tower to broadcast, which include frequencies, tower name, band, and power. Fill out the required (depending on yate version click “Advanced” to see the remaining fields) fields and hit Submit.
+
+To ensure you put it into the right location, telnet into Yate with ```telnet localhost 5038``` while it is running and enter the command ```status engine```. This will tell you where Yate is pulling its various config files from.
+
+Sample ybts.conf configuration:
+```
+Radio.Band=900
+Radio.C0=3650
+Identity.MCC=001
+Identity.MNC=01
+Identity.ShortName=DoesntMatter
+Radio.PowerManager.MaxAttenDB=40
+Radio.PowerManager.MinAttenDB=35
+```
+> Note: You can manually edit this file in ```/usr/local/etc/yate/ybts.conf```. If encountering missing the ybts.conf file, it may need to be moved to the /usr/local/etc/yate folder for the web GUI to find the file to write to. If so, use this command from the directory: ```mv /your/directory/ybts.conf /usr/local/etc/yate``` 
+
+**This next part is much easier to do in the Web GUI**
+
+In the Web GUI, go the the Subscribers tab. There is a link to write SIMs or Manage SIMS. Here you will need to configure the regular expression (REGEXP). This creates a whitelist that allows a specific set of users to connect (based on SIM IMSI) to connect to the BTS. **ONLY USE AN IMSI THAT YOU ARE THE OWNER OF**. Me in particular, I ordered 10 SIMs each with their own IMSI. For ease and versatility, we configured the REGEXP to accept my array of 10 SIMs, but yours will be different. This is the first 14 numbers of all of the SIMs I had, and because they are sequenced the IMSI per card changed only 1 per card. The last section in brackets accepts all of our cards.
+
+```^12340000005678[0-9]$```
+
+This will accept all of our SIMs once programmed. You can avoid this as well by simply adding subscribers via the web interface manually, but do not do both. 
+Your tower should now be fully configured and ready for operation. It will be able to broadcast at your set frequencies. 
