@@ -37,7 +37,7 @@ A preliminary component to our BTS is a Raspberry Pi to function as the base ope
 5. Give the Raspberry Pi ample time to boot. Wait until you are prompted to login. This may take up to five minutes. The default username and password are pi and raspberry respectively. 
 
 ### III. Yate/YateBTS Installation in Raspbian
-Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS. A wiki to YateBTS installation is [here](https://shrinkearn.com/9UMX)
+Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS. [A wiki to YateBTS installation is here](https://shrinkearn.com/9UMX)
 
 First, install dependencies. These may already be on your operating system, or may not be necessary for Yate but are helpful to have around. 
 
