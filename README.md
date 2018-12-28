@@ -28,20 +28,21 @@ This project is implemented with a Raspberry Pi 3, a BladeRF x40, and SIM cards 
 
 ### II. Raspberry Pi Installation
 A preliminary component to our BTS is a Raspberry Pi to function as the base operating system. We installed a well-known Linux distribution known as Raspbian.
-1. Download the .img image of Raspbian or Raspbian Lite. Raspbian Lite will only allow a command line interface only.
+1. Download the .img image of Raspbian or Raspbian Lite. (Raspbian Lite only has a command line interface).
 2. Format your SD card and use Win32 Disk Imager to install the Raspbian distribution into a partition on the SD card.
 3. Insert the SD card into the Raspberry Pi.
 4. Connect your monitor, mouse and keyboard into the Raspberry Pi, and then insert the power cable. WARNING: Do not connect power until all other externals have been connected, preferably with a protective shell covering the green board.
 5. Give the Raspberry Pi ample time to boot. Wait until you are prompted to login. This may take up to five minutes. The default username and password are pi and raspberry respectively. 
 
 ### III. Yate/YateBTS Installation in Raspbian
-> Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS.
+Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS.
 
 First, install dependencies. These may already be on your operating system, or may not be necessary for Yate but are helpful to have around. 
-> LibbladeRF is no longer required due to Yate providing BladeRF support.
+
 ```
 sudo apt-get install git php5 bladerf libbladerf-dev libbladerf0 automake gcc g++ libusb-1.0-0 libusb-1.0-0-dbg libusb-1.0-0-dev cmake doxygen kdoc
 ```
+> LibbladeRF is no longer required due to Yate providing BladeRF support.
 
 Verify your BladeRF firmware is 1.6.1 and FPGA is 0.1.2. The bladeRF firmware doesn’t play well with Yate unless the right firmware and FPGA are used, and this is what works for me. This may need some trial and error. Yate overrides the entire BladeRF C library with its own on execution, so your mileage may vary on different version of Yate/YateBTS.
 
@@ -102,14 +103,16 @@ You can check the image version that is installed with the following command. No
 bladeRF> version
 ```
 
-If you don't need to load a different firmware version, skip this step.
+If you don't need to load a different firmware version, skip this step about flashing the images.
+
+Now we need to flash the firmware image. Inside the BladeRF CLI, locate your firmware image and simply run:
 ``` 
 bladeRF> load fx3 bladeRF_fw_v1.6.1.img
 // or
 bladeRF> <bus> <address> <path to firmware image>
 ```
 
-From here, use the ```help``` page inside the CLI to calibrate your BladeRF. To verify your changes, use the ```print``` command to view your settings. 
+From inside the BladeRF CLI, use the ```help``` page inside the CLI to calibrate your BladeRF. To verify your changes, use the ```print``` command to view your settings. 
 
 ### Web GUI for YateBTS
 
@@ -126,3 +129,5 @@ root@raspberrypi:/home/pi# cd /var/www/html/
 root@raspberrypi:/home/pi/var/www/html# ln -s /usr/local/share/yate/nib/web nib
 root@raspberrypi:/home/pi# chmod a+w -r /usr/local/etc/yate
 ```
+
+Now you should have your graphical interface installed on the web server. Go to your browser and access the server via ```localhost/nib``` or ```127.0.0.1/*name-of-directory*```
