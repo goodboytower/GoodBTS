@@ -2,23 +2,23 @@
 
 --- Apologies for the guide still being incomplete. I'm short on time, but I will continue to work on this until I see it as acceptable. Give it a month or so! ---
 
-The most complete and up-to-date repository for BladeRF and YateBTS compatibility.
+The most complete and up-to-date repository for [Nuand BladeRF](https://shrinkearn.com/ooNe) and [YateBTS](https://shrinkearn.com/1YS1) compatibility.
 
-After working through the various issues of multiple sources to implement YateBTS with the BladeRFx40, I decided to create this repository in order to assist other creators with their own implementation in a much more thorough educational guide. I will do my best to avoid gaps in implementation, and add educational pieces where I feel confident in my knowledge.
+After working through the various issues of multiple sources to implement YateBTS with the BladeRFx40, I decided to create this repository in order to assist other creators with their own implementation in a much more thorough educational guide. I will do my best to avoid gaps in implementation, and add educational pieces where I feel confident in my knowledge. Thanks for putting up with the ads in the links! In return, I plan on keeping up with this project to answer questions unlike some BTS repositories out there. (Nothing wrong with them, but people move on to other projects sometimes. Hopefully I write this well enough to reduce the difficulties!)
 
 This educational guide was written by Michael Maune. A big shoutout to all those who helped and assisted with this project: Giovanni Licamelli, Mohammed Islam, David Miller, "rtucker at Nuand.com", and "Ioana Stanciu at forum.yate.ro".
 
-DISCLAIMER: This guide is only intended for use in educational projects. Using this guide will create a functional Network-In-A-Box (NIB) for personal use. GoodBTS will NOT assist in creating an IMSI Catcher or similar man-in-the-middle functions. Unethical use of the hardware referred to in this guide is ILLEGAL and restricted by the FCC. Please refer to FCC §97.313(a) for further guidance on broadcasting in the RF spectrum. 
+DISCLAIMER: This guide is only intended for use in educational projects. Using this guide will create a functional Network-In-A-Box (NIB) for personal use. GoodBTS will NOT assist in creating an IMSI Catcher or similar man-in-the-middle functions. Unethical use of the hardware referred to in this guide is ILLEGAL and restricted by the FCC. Please refer to [FCC §97.313(a)](https://shrinkearn.com/1vLf) for further guidance on broadcasting in the RF spectrum. 
 
 ### I. Introduction - Prerequisites
 
 This project is implemented with a Raspberry Pi 3, a BladeRF x40, and SIM cards purchased separately (with ADM keys). 
 
 #### Required Components
-- Raspberry Pi (Pi 3 Model B)
+- [Raspberry Pi (Pi 3 Model B)](https://shrinkearn.com/7lBgo)
 - SD Card (minimum 8 GB)
 - Externals (Mouse, keyboard, HDMI card and monitor)
-- Nuand BladeRFx40 (Radio Frequency Transceiver)
+- [Nuand BladeRFx40](https://shrinkearn.com/rFSM1) (Radio Frequency Transceiver)
 - Quad-band Antennas 
 
 ##### Optional Components
@@ -35,7 +35,7 @@ A preliminary component to our BTS is a Raspberry Pi to function as the base ope
 5. Give the Raspberry Pi ample time to boot. Wait until you are prompted to login. This may take up to five minutes. The default username and password are pi and raspberry respectively. 
 
 ### III. Yate/YateBTS Installation in Raspbian
-Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS.
+Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS. A wiki to YateBTS installation is [here](https://shrinkearn.com/9UMX)
 
 First, install dependencies. These may already be on your operating system, or may not be necessary for Yate but are helpful to have around. 
 
@@ -52,9 +52,9 @@ To download the FPGA and firmware, run these commands. Put these both in a place
 wget https://www.nuand.com/fpga/v0.1.2/hostedx40.rbf //BladeRF FPGA 0.1.2
 wget https://www.nuand.com/fx3/bladeRF_fw_v1.6.1.img //BladeRF Firmware 1.6.1
 ```
-Older versions of BladeRF firmware: https://www.nuand.com/fx3_images/
+----- [Older versions of BladeRF firmware](https://shrinkearn.com/wmDGr)
 
-Older versions of BladeRF FPGAs: https://www.nuand.com/fpga_images/ 
+----- [Older versions of BladeRF FPGAs](https://shrinkearn.com/DDxcX)
 
 Next, download the tar of Yate and YateBTS. Yate's website has multiple versions of Yate/YateBTS.
 
@@ -62,9 +62,9 @@ Next, download the tar of Yate and YateBTS. Yate's website has multiple versions
 wget http://yate.null.ro/tarballs/yatebts5/yate-bts-5.0.0-1.tar.gz // YateBTS V 5.5.1
 wget http://voip.null.ro/tarballs/yate5/yate-5.5.0-1.tar.gz //Yate V 5.5.0
 ```
-Older versions of Yate: http://old.yate.ro/pmwiki/index.php?n=Main.Download
+----- [Older versions of Yate](https://shrinkearn.com/Tto4N)
 
-Older versions of YateBTS: https://wiki.yatebts.com/index.php/Old_versions 
+----- [Older versions of YateBTS](https://shrinkearn.com/PtC0)
 
 > NOTE: The hardest challenge I faced was figuring out the right versions between the BladeRF FPGA, firmware, YateBTS and Yate versions. If you know the most recent compatible versions of each of these, I’d love to know the answer!
 
@@ -88,7 +88,7 @@ root@raspberrypi:/home/pi/yate# cd ../
 
 ### Interacting with the BladeRF
 
-Next, we configure the BladeRF. It's important to note that the bladeRF defaults to pull power from the USB cable, so be sure to find a separate power cord for the BladeRF. When connecting, if you receive an error suggesting there are no registered devices, that means you are already logged into the Pi in a different terminal or as a non-root user.
+Next, we configure the BladeRF. It's important to note that the bladeRF defaults to pull power from the USB cable, so be sure to find a separate power cord for the BladeRF. When connecting, if you receive an error suggesting there are no registered devices, that means you are already logged into the Pi in a different terminal or as a non-root user. [The wiki to the BladeRF basic device operation is here](https://shrinkearn.com/Gxp9)
 
 To initialize and enter the BladeRF CLI, run this command
 ```
@@ -112,6 +112,8 @@ bladeRF> <bus> <address> <path to firmware image>
 ```
 
 From inside the BladeRF CLI, use the ```help``` page inside the CLI to calibrate your BladeRF. To verify your changes, use the ```print``` command to view your settings. 
+
+[The link to the general BladeRF wiki is here](https://shrinkearn.com/78br)
 
 ### Web GUI for YateBTS
 
