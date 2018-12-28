@@ -150,7 +150,7 @@ Identity.ShortName=DoesntMatter
 Radio.PowerManager.MaxAttenDB=40
 Radio.PowerManager.MinAttenDB=35
 ```
-> Note: You can manually edit this file in ```/usr/local/etc/yate/ybts.conf```. If encountering missing the ybts.conf file, it may need to be moved to the /usr/local/etc/yate folder for the web GUI to find the file to write to. If so, use this command from the directory: ```mv /your/directory/ybts.conf /usr/local/etc/yate``` 
+> Note: You can manually edit this file in ```/usr/local/etc/yate/ybts.conf```. If encountering a missing ybts.conf file error, it may need to be moved to the /usr/local/etc/yate folder for the web GUI to find the file to write to. If so, use this command from the directory: ```mv /your/directory/ybts.conf /usr/local/etc/yate``` 
 
 **This next part is much easier to do in the Web GUI**
 
@@ -160,3 +160,42 @@ In the Web GUI, go the the Subscribers tab. There is a link to write SIMs or Man
 
 This will accept all of our SIMs once programmed. You can avoid this as well by simply adding subscribers via the web interface manually, but do not do both. 
 Your tower should now be fully configured and ready for operation. It will be able to broadcast at your set frequencies. 
+
+### SIM Programming
+For me, the web GUI for YateBTS always failed to program the SIMs, so I resorted to manually using pySim to program the SIM cards. 
+
+To start, you’ll need to properly place a SIM into the SIM card reader. You may need to use the SIM cutter depending on the phone you intend on using. Once fitted, plug the SIM reader/writer into the Pi. We’ll need to download pySim to program the SIMs.
+
+```root@raspberrypi:/home/pi# apt-get install pysim```
+
+From here, grab the information that should be on hand for you with your SIM cards. You’ll need to find or decide on the information you'll put on the IMSI, like card type, country code, mobile country code, mobile network code, ADM pin, ICCID, KI, OPC, and a made up name for that SIM. Follow the following format to program the SIMs.
+
+>WARNING: If you incorrectly program a SIM with the wrong ADM key, you will brick the SIM card after 3-4 unsuccessful tries. Command line works best for this section.
+
+```
+root@raspberrypi:/home/pi# cd pysim
+root@raspberrypi:/home/pi/pysim# ./pySim-prog.py -p0 -t [card type] -a [ADM Pin] -x [mobile country code] -y [mobile network code] -i [IMSI] -s [iccid] -k [ki] -o [opc] -n [whatever name]
+```
+
+Here is an example of my command:
+```
+root@raspberrypi:/home/pi/pysim# ./pySim-prog.py -p0 -t sysmoUSIM-SJS1 -a 49681225 -x 001 -y 01 -i 123400000056781 -s 1234511000000678901 -k E848CE041B42E17012B1F94B545CE623 -o DA8FBF229BAEA1D428472D42538067A3 -n myname
+```
+
+### Begin Tower Broadcast
+To start broadcasting, simply type the following as root after configuring the BladeRF:
+```
+yate -s
+```
+A full list of flags for the ```yate``` command [can be found here](https://shrinkearn.com/scGvp)
+
+To see if the interface is actually up, you can telnet into the bladeRF:
+```
+root@raspberrypi:/home/pi# telnet localhost 5038
+> javascript load nib.js
+> nib list registered
+```
+
+The load nib.js command will load the Network-In-A-Box script that allows you to check registered devices (along with other functions), and the ```nib list registered``` command is an example that will list the registered and associated devices that are online (subscribers). 
+
+If everything has gone well, wait about 5-10 minutes and you should receive a welcome message on your phone from "Eliza" **only** the first time it connects to the BTS. If not, disable LTE and enable Roaming mode on the phone. This is where the MCC and MNC come into play - your phone should see a tower that begins with your MCC 3-digit number that you assigned. If not, try a different usable frequency or check what frequencies your phone uses. Yate should assign you a default short number. This takes about 2-5 minutes to register the devices and for the built in YateBTS’s Eliza to assign a number to the device. Now, try communicating with one another on that network through SMS or voice.
