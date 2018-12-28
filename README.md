@@ -4,11 +4,13 @@
 
 The most complete and up-to-date repository for [Nuand BladeRF](https://shrinkearn.com/ooNe) and [YateBTS](https://shrinkearn.com/1YS1) compatibility.
 
-After working through the various issues of multiple sources to implement YateBTS with the BladeRFx40, I decided to create this repository in order to assist other creators with their own implementation in a much more thorough educational guide. I will do my best to avoid gaps in implementation, and add educational pieces where I feel confident in my knowledge. Thanks for putting up with the ads in the links! In return, I plan on keeping up with this project to answer questions unlike some BTS repositories out there. (Nothing wrong with them, but people move on to other projects sometimes. Hopefully I write this well enough to reduce the difficulties!)
+After working through the various issues of multiple sources to implement YateBTS with the BladeRFx40, I decided to create this repository in order to assist other creators with their own implementation in a much more thorough educational guide. I will do my best to avoid gaps in implementation, and add educational pieces where I feel confident in my knowledge. 
 
 This educational guide was written by Michael Maune. A big shoutout to all those who helped and assisted with this project: Giovanni Licamelli, Mohammed Islam, David Miller, "rtucker at Nuand.com", and "Ioana Stanciu at forum.yate.ro".
 
 DISCLAIMER: This guide is only intended for use in educational projects. Using this guide will create a functional Network-In-A-Box (NIB) for personal use. GoodBTS will NOT assist in creating an IMSI Catcher or similar man-in-the-middle functions. Unethical use of the hardware referred to in this guide is ILLEGAL and restricted by the FCC. Please refer to [FCC §97.313(a)](https://shrinkearn.com/1vLf) for further guidance on broadcasting in the RF spectrum. 
+
+Thanks for putting up with the ads in the links! In return, I plan on keeping up with this project to answer questions unlike some BTS repositories out there. (Nothing wrong with them, but people move on to other projects sometimes. Hopefully I write this well enough to reduce the difficulties!)
 
 ### I. Introduction - Prerequisites
 
