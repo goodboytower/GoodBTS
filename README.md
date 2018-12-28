@@ -24,9 +24,9 @@ This project is implemented with a Raspberry Pi 3, a BladeRF x40, and SIM cards 
 - Quad-band Antennas 
 
 ##### Optional Components
-- SIM cards with ADM Keys
-- SIM card Reader/Writer
-- SIM card cutter (if necessary)
+- [SIM cards with ADM Keys](https://shrinkearn.com/al3UG)
+- [SIM card Reader/Writer](https://shrinkearn.com/2E9M)
+- [SIM card cutter (if necessary)](https://shrinkearn.com/4dqqT)
 
 ### II. Raspberry Pi Installation
 A preliminary component to our BTS is a Raspberry Pi to function as the base operating system. We installed a well-known Linux distribution known as Raspbian.
