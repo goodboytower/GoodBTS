@@ -46,26 +46,25 @@ sudo apt-get install git php5 bladerf libbladerf-dev libbladerf0 automake gcc g+
 
 Verify your BladeRF firmware is 1.6.1 and FPGA is 0.1.2. The bladeRF firmware doesn’t play well with Yate unless the right firmware and FPGA are used, and this is what works for me. This may need some trial and error. Yate overrides the entire BladeRF C library with its own on execution, so your mileage may vary on different version of Yate/YateBTS.
 
-Older versions of BladeRF firmware: https://www.nuand.com/fx3_images/
-
-Older versions of BladeRF FPGAs: https://www.nuand.com/fpga_images/ 
+To download the FPGA and firmware, run these commands. Put these both in a place you’ll remember - you’ll be needing them later. The links below have each of the images directly on the Nuand website.
 
 ```
 wget https://www.nuand.com/fpga/v0.1.2/hostedx40.rbf //BladeRF FPGA 0.1.2
 wget https://www.nuand.com/fx3/bladeRF_fw_v1.6.1.img //BladeRF Firmware 1.6.1
 ```
+Older versions of BladeRF firmware: https://www.nuand.com/fx3_images/
 
-Put these in a place you’ll remember - we’ll be needing them later. 
-From the root folder of your Pi, download the repository of EvilBTS
+Older versions of BladeRF FPGAs: https://www.nuand.com/fpga_images/ 
 
-Older versions of Yate: http://old.yate.ro/pmwiki/index.php?n=Main.Download
-
-Older versions of YateBTS: https://wiki.yatebts.com/index.php/Old_versions 
+Next, download the tar of Yate and YateBTS. Yate's website has multiple versions of Yate/YateBTS.
 
 ```
 wget http://yate.null.ro/tarballs/yatebts5/yate-bts-5.0.0-1.tar.gz // YateBTS V 5.5.1
 wget http://voip.null.ro/tarballs/yate5/yate-5.5.0-1.tar.gz //Yate V 5.5.0
 ```
+Older versions of Yate: http://old.yate.ro/pmwiki/index.php?n=Main.Download
+
+Older versions of YateBTS: https://wiki.yatebts.com/index.php/Old_versions 
 
 > NOTE: The hardest challenge I faced was figuring out the right versions between the BladeRF FPGA, firmware, YateBTS and Yate versions. If you know the most recent compatible versions of each of these, I’d love to know the answer!
 
