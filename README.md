@@ -12,7 +12,7 @@ DISCLAIMER: This guide is only intended for use in educational projects. Using t
 
 Thanks for putting up with the ads in the links! In return, I plan on keeping up with this project to answer questions unlike some BTS repositories out there. (Nothing wrong with them, but people move on to other projects sometimes. Hopefully I write this well enough to reduce the difficulties!)
 
-### I. Introduction - Prerequisites
+## I. Introduction - Prerequisites
 
 This project is implemented with a Raspberry Pi 3, a BladeRF x40, and SIM cards purchased separately (with ADM keys). 
 
@@ -28,7 +28,7 @@ This project is implemented with a Raspberry Pi 3, a BladeRF x40, and SIM cards 
 - [SIM card Reader/Writer](https://shrinkearn.com/2E9M)
 - [SIM card cutter (if necessary)](https://shrinkearn.com/4dqqT)
 
-### II. Raspberry Pi Installation
+## II. Raspberry Pi Installation
 A preliminary component to our BTS is a Raspberry Pi to function as the base operating system. We installed a well-known Linux distribution known as Raspbian.
 1. Download the .img image of Raspbian or Raspbian Lite. (Raspbian Lite only has a command line interface).
 2. Format your SD card and use Win32 Disk Imager to install the Raspbian distribution into a partition on the SD card.
@@ -36,7 +36,7 @@ A preliminary component to our BTS is a Raspberry Pi to function as the base ope
 4. Connect your monitor, mouse and keyboard into the Raspberry Pi, and then insert the power cable. WARNING: Do not connect power until all other externals have been connected, preferably with a protective shell covering the green board.
 5. Give the Raspberry Pi ample time to boot. Wait until you are prompted to login. This may take up to five minutes. The default username and password are pi and raspberry respectively. 
 
-### III. Yate/YateBTS Installation in Raspbian
+## III. Yate/YateBTS Installation in Raspbian
 Yate is an acronym for Yet Another Telephony Engine that provides for a free and open source communication engine. YateBTS is a software implementation of the Yate engine that allows us to configure our BTS. [A wiki to YateBTS installation is here](https://shrinkearn.com/9UMX)
 
 First, install dependencies. These may already be on your operating system, or may not be necessary for Yate but are helpful to have around. 
@@ -72,23 +72,41 @@ wget http://voip.null.ro/tarballs/yate5/yate-5.5.0-1.tar.gz //Yate V 5.5.0
 
 > WARNING: If you have more than one instance of yate-config, it would be best to remove all except the one you need. You can verify with ``` which -a yate-config ``` to find their location. Run ```make uninstall``` to remove it from inside that directory.
 
-To install, first you will run the script that checks your dependencies.
+To install, first you will run the script that checks your dependencies. You will need to run this in both the Yate and the YateBTS directory.
+
 ```
 root@raspberrypi:/home/pi/yate# ./autogen.sh
-root@raspberrypi:/home/p/yatei# ./configure
-```
-Then, you will begin the installation of Yate. This process is identical to run in your YateBTS directory.
+root@raspberrypi:/home/p/yate# ./configure
 
->Take note if these install correctly or not, for troubleshooting purposes. You may need to apply a gcc patch to the YateBTS directory, more on that further down.
+// and
+
+root@raspberrypi:/home/pi/yatebts# ./autogen.sh
+root@raspberrypi:/home/p/yatebts# ./configure
+```
+
+Then, you will begin the installation of Yate.
+
+>Take note if these install correctly or not, for troubleshooting purposes. You may need to apply a gcc patch to the YateBTS directory.
 
 ```
 root@raspberrypi:/home/pi/yate# make -j4
-root@raspberrypi:/home/pi/yate# sudo make install
-root@raspberrypi:/home/pi/yate# sudo ldconfig
+root@raspberrypi:/home/pi/yate# make install
+root@raspberrypi:/home/pi/yate# ldconfig
 root@raspberrypi:/home/pi/yate# cd ../
+
+// and 
+
+root@raspberrypi:/home/pi/yatebts# make -j4
+root@raspberrypi:/home/pi/yatebts# make install
+root@raspberrypi:/home/pi/yatebts# ldconfig
+root@raspberrypi:/home/pi/yatebts# cd ../
 ```
 
-### Interacting with the BladeRF
+If you encountered an error and these failed to install or make, here are the steps to patch your GCC. These happen when your version of GCC is too new for the Yate/YateBTS installation. Take note of the version of Yate you're running to patch it correctly. Also, make sure you have libusb-1.0-0-dev properly installed (mentioned earlier in this guide)
+
+[Here is the link to the patch provided by Yate](https://shrinkearn.com/UfkMa)
+
+## IV. Interacting with the BladeRF
 
 Next, we configure the BladeRF. It's important to note that the bladeRF defaults to pull power from the USB cable, so be sure to find a separate power cord for the BladeRF. When connecting, if you receive an error suggesting there are no registered devices, that means you are already logged into the Pi in a different terminal or as a non-root user. [The wiki to the BladeRF basic device operation is here](https://shrinkearn.com/Gxp9)
 
@@ -117,7 +135,7 @@ From inside the BladeRF CLI, use the ```help``` page inside the CLI to calibrate
 
 [The link to the general BladeRF wiki is here](https://shrinkearn.com/78br)
 
-### Web GUI for YateBTS
+## V. Web GUI for YateBTS
 
 If not already installed, install apache web server, please do so. This will be necessary so we can reach the hosted web files that communicate with the physical Yate & YateBTS files. Note that we originally tried using the web interface, but had many issues with certain configuration files not installing in the correct place, and thus the web GUI couldn’t find where to write changes. So we had a healthy mix of configuring with the WebGUI and manually. You can configure these files completely manually as listed below, but rather use the WebGUI as a template to make the files with the below information to double check the parameters.
 
@@ -154,21 +172,20 @@ Radio.PowerManager.MinAttenDB=35
 
 **This next part is much easier to do in the Web GUI**
 
-In the Web GUI, go the the Subscribers tab. There is a link to write SIMs or Manage SIMS. Here you will need to configure the regular expression (REGEXP). This creates a whitelist that allows a specific set of users to connect (based on SIM IMSI) to connect to the BTS. **ONLY USE AN IMSI THAT YOU ARE THE OWNER OF**. Me in particular, I ordered 10 SIMs each with their own IMSI. For ease and versatility, we configured the REGEXP to accept my array of 10 SIMs, but yours will be different. This is the first 14 numbers of all of the SIMs I had, and because they are sequenced the IMSI per card changed only 1 per card. The last section in brackets accepts all of our cards.
+In the Web GUI, go the the Subscribers tab. There is a link to write SIMs or Manage SIMS. Here you will need to configure the regular expression (REGEXP). This creates a whitelist that allows a specific set of users to connect (based on SIM IMSI) to connect to the BTS. **ONLY USE AN IMSI THAT YOU ARE THE OWNER OF**. Me in particular, I ordered 10 SIMs each with their own IMSI. For ease and versatility, we configured the REGEXP to accept my array of 10 SIMs, but yours will be different. This is the first 14 numbers of all of the SIMs I had, and because they are sequenced the IMSI per card changed only 1 per card. The last section in brackets accepts all of my cards.
 
 ```^12340000005678[0-9]$```
 
-This will accept all of our SIMs once programmed. You can avoid this as well by simply adding subscribers via the web interface manually, but do not do both. 
-Your tower should now be fully configured and ready for operation. It will be able to broadcast at your set frequencies. 
+This will accept all of your SIMs once they're properly programmed. 
 
-### SIM Programming
+## VI. SIM Programming
 For me, the web GUI for YateBTS always failed to program the SIMs, so I resorted to manually using pySim to program the SIM cards. 
 
 To start, you’ll need to properly place a SIM into the SIM card reader. You may need to use the SIM cutter depending on the phone you intend on using. Once fitted, plug the SIM reader/writer into the Pi. We’ll need to download pySim to program the SIMs.
 
 ```root@raspberrypi:/home/pi# apt-get install pysim```
 
-From here, grab the information that should be on hand for you with your SIM cards. You’ll need to find or decide on the information you'll put on the IMSI, like card type, country code, mobile country code, mobile network code, ADM pin, ICCID, KI, OPC, and a made up name for that SIM. Follow the following format to program the SIMs.
+From here, grab the information from the supplier of your SIM cards. You’ll need to enter the information you'll put on the IMSI, like card type, country code, mobile country code, mobile network code, ADM pin, ICCID, KI, OPC, and a made up name for that SIM. Follow the following format to program the SIMs.
 
 >WARNING: If you incorrectly program a SIM with the wrong ADM key, you will brick the SIM card after 3-4 unsuccessful tries. Command line works best for this section.
 
@@ -182,7 +199,7 @@ Here is an example of my command:
 root@raspberrypi:/home/pi/pysim# ./pySim-prog.py -p0 -t sysmoUSIM-SJS1 -a 49681225 -x 001 -y 01 -i 123400000056781 -s 1234511000000678901 -k E848CE041B42E17012B1F94B545CE623 -o DA8FBF229BAEA1D428472D42538067A3 -n myname
 ```
 
-### Begin Tower Broadcast
+## VII. Begin Tower Broadcast
 To start broadcasting, simply type the following as root after configuring the BladeRF:
 ```
 yate -s
