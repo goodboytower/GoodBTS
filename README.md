@@ -40,7 +40,7 @@ Yate is an acronym for Yet Another Telephony Engine that provides for a free and
 First, install dependencies. These may already be on your operating system, or may not be necessary for Yate but are helpful to have around. 
 
 ```
-sudo apt-get install git php5 bladerf libbladerf-dev libbladerf0 automake gcc g++ libusb-1.0-0 libusb-1.0-0-dbg libusb-1.0-0-dev cmake doxygen kdoc
+sudo apt-get install git php5 bladerf libbladerf-dev libbladerf0 automake gcc g++ libusb-1.0-0 libusb-1.0-0-dbg libusb1-devel libusb-1.0-0-dev cmake doxygen kdoc
 ```
 > LibbladeRF is no longer required due to Yate providing BladeRF support.
 
@@ -74,12 +74,12 @@ To install, first you will run the script that checks your dependencies. You wil
 
 ```
 root@raspberrypi:/home/pi/yate# ./autogen.sh
-root@raspberrypi:/home/p/yate# ./configure
+root@raspberrypi:/home/p/yate# ./configure --prefix=/usr/local
 
 // and
 
 root@raspberrypi:/home/pi/yatebts# ./autogen.sh
-root@raspberrypi:/home/p/yatebts# ./configure
+root@raspberrypi:/home/p/yatebts# ./configure --prefix=/usr/local
 ```
 
 Then, you will begin the installation of Yate.
