@@ -185,12 +185,12 @@ To start, you’ll need to properly place a SIM into the SIM card reader. You ma
 
 From here, grab the information from the supplier of your SIM cards. You’ll need to enter the information you'll put on the IMSI, like card type, country code, mobile country code, mobile network code, ADM pin, ICCID, KI, OPC, and a made up name for that SIM. Follow the following format to program the SIMs.
 
->WARNING: If you incorrectly program a SIM with the wrong ADM key, you will brick the SIM card after 3-4 unsuccessful tries. Command line works best for this section.
-
 ```
 root@raspberrypi:/home/pi# cd pysim
 root@raspberrypi:/home/pi/pysim# ./pySim-prog.py -p0 -t [card type] -a [ADM Pin] -x [mobile country code] -y [mobile network code] -i [IMSI] -s [iccid] -k [ki] -o [opc] -n [whatever name]
 ```
+
+>WARNING: If you incorrectly program a SIM with the wrong ADM key, you will brick the SIM card after 3 unsuccessful tries. Command line works best for this section. If you happen to lock out your CHV, then my best suggestion is to find a program that allows you to use the PIN Unblock Code (PUK) to unblock the SIM's CHV.
 
 Here is an example of my command:
 ```
