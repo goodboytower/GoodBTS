@@ -2,6 +2,8 @@
 
 The most up-to-date repository for [Nuand BladeRF](https://shrinkearn.com/ooNe) and [YateBTS](https://shrinkearn.com/1YS1) compatibility.
 
+If you run into any problems, feel free to leave a message on this page and I'll respond ASAP. I keep pretty good track of my Github, so I should't take too long to respond.
+
 After working through the various issues of multiple sources to implement YateBTS with the BladeRFx40, I decided to create this repository in order to assist other creators with their own implementation in a much more thorough educational guide. I will do my best to avoid gaps in implementation, and add educational pieces where I feel confident in my knowledge. 
 
 This educational guide was written by Michael Maune. A big shoutout to all those who helped and assisted with this project: Giovanni Licamelli, Mohammed Islam, David Miller, "rtucker at Nuand.com", and "Ioana Stanciu at forum.yate.ro".
