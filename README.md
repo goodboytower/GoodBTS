@@ -1,6 +1,5 @@
 # GoodBTS
-# April 8th, 2023 - Update!
-An updated and improved version of this guide has been posted on my blog. Check it out at https://maunedigitalsolutions.com/blog
+# April 8th, 2023 - Update! An updated and improved version of this guide has been posted on my blog. Check it out at https://maunedigitalsolutions.com/blog
 
 The most up-to-date repository for Nuand BladeRF and YateBTS compatibility.
 
